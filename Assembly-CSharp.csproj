@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Ammo\ScrParentAmmo.cs" />
     <Compile Include="Assets\Scripts\Weapons\ScrLaserGun.cs" />
     <Compile Include="Assets\Sprites\tiles\TopDownAssets\Common\Scripts\CustomGrid.cs" />
+    <Compile Include="Assets\Scripts\Commons\ScrLived.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrPlayer : MonoBehaviour
+public class ScrPlayer : ScrLived
 {
-    //Attribs
-    public float speed = 9; 
+    #region Atributos
+    public float speed = 9;
 
-
-    //Controls
+    #endregion
+    #region Variables de control
     private float vSpeed = 0;
     private float hSpeed = 0;
+    public int currentNumberWeapon = 0;
 
-    //Objects
+    #endregion
+
+    #region Objetos
     public Transform body;
     public Rigidbody2D rigidBody;
     
@@ -22,8 +25,9 @@ public class ScrPlayer : MonoBehaviour
     public Transform target;
 
     private GameObject currentWeapon = null;
-    public int currentNumberWeapon = 0;
+    #endregion
 
+    #region estructuras
     private enum nameWeapons
     {
         Simple = 1,
@@ -37,8 +41,13 @@ public class ScrPlayer : MonoBehaviour
     public Dictionary<int, int> ammo;
     public Dictionary<int, int> ammoInWeaponsCharger;
 
+    #endregion
+
+    #region eventos de unity
     private void Awake()
     {
+        this.life = 50;
+
         this.weapons = new Dictionary<int, GameObject>()
         {
             { 1, Resources.Load<GameObject>("Prefabs/Weapons/SimpleShootGun") },
@@ -96,11 +105,19 @@ public class ScrPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        base.checkLife();
 
         this.movement();
         this.chageAngle();
     }
+    #endregion
 
+    public override void lifeGotZero()
+    {
+        Debug.Log("es zero");
+    }
+
+    #region funciones del objeto jugador
     private void chageAngle()
     {
         Vector2 direction = this.target.position - this.transform.position;
@@ -116,6 +133,9 @@ public class ScrPlayer : MonoBehaviour
         this.rigidBody.MovePosition( this.rigidBody.position + (movement * this.speed * Time.fixedDeltaTime));
     }
 
+    #endregion
+
+    #region funciones de armas
     private void updateWeaponPosition()
     {
         this.currentWeapon.transform.position = mainGun.position;
@@ -208,4 +228,6 @@ public class ScrPlayer : MonoBehaviour
         // Establecer el índice del objeto "weapon" para que esté por encima del "Player"
         weapon.transform.SetSiblingIndex(playerIndex + 1);
     }
+
+    #endregion
 }
