@@ -70,6 +70,7 @@ public class ScrPlayer : ScrLived
         
         //SOlo para debug
         this.rechargeMainWeapon();
+
     }
 
     // Update is called once per frame

@@ -7,8 +7,7 @@ public class ScrTestEnemy : ScrLived
     // Start is called before the first frame update
     void Start()
     {
-        this.currentHealth = 100;
-        this.maxHealth = 100;
+        this.setMaxLife(100);
     }
 
     // Update is called once per frame
