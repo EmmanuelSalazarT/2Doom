@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class ScrParentAmmo : MonoBehaviour
 {
+    public float damage;
     public float speed;
+
+    public GameObject ExplosionEffect;
+    public Transform Corner;
+
+    public bool destroyOnCollision = true;
+
     public Rigidbody2D rb;
 
-    public float damage;
 
     // Start is called before the first frame update
     protected virtual  void Start()
     {
+        this.destroyOnCollision = true;
         this.rb = GetComponent<Rigidbody2D>();    
         this.rb.AddForce(this.transform.up * this.speed , ForceMode2D.Impulse);
     }
@@ -27,6 +34,40 @@ public class ScrParentAmmo : MonoBehaviour
         Vector2 movement = transform.forward * speed;
 
         //this.rb.MovePosition( this.rb.position + (movement * Time.fixedDeltaTime));
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision != null)
+        {
+            ScrLived livedItem = collision.gameObject.GetComponent<ScrLived>();
+            if(livedItem != null)
+            {
+                livedItem.takeDamage(this.damage);
+
+                this.extraColitionEvent(livedItem);
+                if(this.destroyOnCollision)
+                {
+                    this.destroyEvent();
+                }
+            }
+        }
+    }
+
+    private void extraColitionEvent(ScrLived livedItem)
+    {
+
+    }
+
+    private void destroyEvent()
+    {
+        if(this.ExplosionEffect != null)
+        {
+            Vector3 position = this.Corner!=null?this.Corner.position : this.transform.position;
+            GameObject explosion = Instantiate(this.ExplosionEffect,position,Quaternion.identity);
+            Object.Destroy(explosion,1);
+        }
+        Object.Destroy(this.gameObject);
     }
 
 }

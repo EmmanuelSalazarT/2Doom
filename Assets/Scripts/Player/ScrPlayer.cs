@@ -46,7 +46,7 @@ public class ScrPlayer : ScrLived
     #region eventos de unity
     private void Awake()
     {
-        this.life = 50;
+        this.setMaxLife(50);
 
         this.weapons = new Dictionary<int, GameObject>()
         {

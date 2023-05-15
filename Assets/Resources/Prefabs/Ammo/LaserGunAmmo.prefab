@@ -31,7 +31,8 @@ Transform:
   m_LocalPosition: {x: -6.98, y: 1.03, z: -0.038589556}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1505231054675070316}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,6 +147,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971c28335dfe35d43b8a818e5871aafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  rb: {fileID: 0}
   damage: 0
+  speed: 0
+  ExplosionEffect: {fileID: 2122636769234027431, guid: 5312ef66663cf5a43a5d66c610534df6, type: 3}
+  Corner: {fileID: 1505231054675070316}
+  destroyOnCollision: 1
+  rb: {fileID: 0}
+--- !u!1 &8331387683604502702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1505231054675070316}
+  m_Layer: 0
+  m_Name: Corner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1505231054675070316
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331387683604502702}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.464, z: -0.0000000037252903}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 758905901369775126}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

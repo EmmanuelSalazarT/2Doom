@@ -4,12 +4,29 @@ using UnityEngine;
 
 public abstract class ScrLived : MonoBehaviour
 {
-    public float life;
+    public float currentHealth;
+    public float maxHealth;
+    public bool showHealthBarInMaxHealth;
 
     // Update is called once per frame
     public void checkLife()
     {
-        if(this.life <= 0)
+        if(this.currentHealth <= 0)
+        {
+            this.lifeGotZero();
+        }
+    }
+
+    public void setMaxLife(float newMaxLife)
+    {
+        this.maxHealth = newMaxLife;
+        this.currentHealth = newMaxLife;
+    }
+
+    public void takeDamage(float damage)
+    {
+        this.currentHealth -= damage;
+        if(this.currentHealth <= 0)
         {
             this.lifeGotZero();
         }
