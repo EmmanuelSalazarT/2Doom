@@ -8,6 +8,7 @@ public abstract class ScrLived : MonoBehaviour
     public float maxHealth;
     public bool showHealthBarInMaxHealth;
     public Vector3 healthBarOffset;
+    public int typeDamageVulnerability = TypeDamageConstant.none;
 
     public GameObject healthBar;
 
@@ -61,9 +62,27 @@ public abstract class ScrLived : MonoBehaviour
         }
     }
 
-    public void takeDamage(float damage)
+    public void takeDamage(float damage, int typeDamage)
     {
-        this.currentHealth -= damage;
+        float finalDamage;
+        if(this.typeDamageVulnerability != TypeDamageConstant.none)
+        {
+            if(this.typeDamageVulnerability == typeDamage) // Si el tipo de daño recibido es igual al de vulnerabilidad, recibe el daño completo
+            {
+                finalDamage = damage;
+            }
+            else
+            {
+                finalDamage = damage * 0.70f; // Sino, recibe como un 70% del daño
+            }
+        }
+        else
+        {
+            finalDamage = damage;
+        }
+
+
+        this.currentHealth -= finalDamage;
         if(this.healthBar != null)
         {
             ScrHealthBar healthBarScript = this.healthBar.GetComponent<ScrHealthBar>();

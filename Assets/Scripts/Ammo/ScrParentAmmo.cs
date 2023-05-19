@@ -6,6 +6,7 @@ public class ScrParentAmmo : MonoBehaviour
 {
     public float damage;
     public float speed;
+    public int damageType;
 
     public GameObject ExplosionEffect;
     public Transform Corner;
@@ -18,6 +19,7 @@ public class ScrParentAmmo : MonoBehaviour
     // Start is called before the first frame update
     protected virtual  void Start()
     {
+        this.damageType = TypeDamageConstant.normal;
         this.destroyOnCollision = true;
         this.rb = GetComponent<Rigidbody2D>();    
         this.rb.AddForce(this.transform.up * this.speed , ForceMode2D.Impulse);
@@ -43,7 +45,7 @@ public class ScrParentAmmo : MonoBehaviour
             ScrLived livedItem = collision.gameObject.GetComponent<ScrLived>();
             if(livedItem != null)
             {
-                livedItem.takeDamage(this.damage);
+                livedItem.takeDamage(this.damage,this.damageType);
 
                 this.extraColitionEvent(livedItem);
                 if(this.destroyOnCollision)
