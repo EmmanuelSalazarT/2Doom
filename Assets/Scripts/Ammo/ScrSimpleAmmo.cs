@@ -7,8 +7,8 @@ public class ScrSimpleAmmo : ScrParentAmmo
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
         this.speed = 20f;
+        base.Start();
 
         this.damage = 5;
     }

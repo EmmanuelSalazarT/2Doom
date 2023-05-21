@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Player\ScrTarget.cs" />
     <Compile Include="Assets\Scripts\Ammo\ScrSimpleAmmo.cs" />
     <Compile Include="Assets\Scripts\Commons\ScrLived.cs" />
+    <Compile Include="Assets\Scripts\Commons\Constants\TypeDamageConstant.cs" />
     <Compile Include="Assets\Scripts\Weapons\ScrSimpleShootGun.cs" />
     <Compile Include="Assets\Scripts\Weapons\ScrParentWeapon.cs" />
     <Compile Include="Assets\Scripts\Player\ScrPlayer.cs" />
@@ -68,7 +69,6 @@
     <Compile Include="Assets\Scripts\Enemies\Test\ScrTestEnemy.cs" />
     <Compile Include="Assets\Scripts\Weapons\ScrLaserGun.cs" />
     <Compile Include="Assets\Sprites\tiles\TopDownAssets\Common\Scripts\CustomGrid.cs" />
-    <Compile Include="Assets\Scripts\Commons\Constants\TypeDamageConstant.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

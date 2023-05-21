@@ -97,5 +97,17 @@ public abstract class ScrLived : MonoBehaviour
         }
     }
 
+    public void restoreLinearDrag()
+    {
+        StartCoroutine(this.corroutineRestoreLinearDrag());
+    }
+
+    private IEnumerator corroutineRestoreLinearDrag()
+    {
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<Rigidbody2D>().drag = 1000000;
+        this.GetComponent<Rigidbody2D>().mass = 1000000;
+    }
+
     public abstract void lifeGotZero();
 }

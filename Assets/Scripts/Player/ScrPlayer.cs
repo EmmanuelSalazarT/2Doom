@@ -7,11 +7,18 @@ public class ScrPlayer : ScrLived
     #region Atributos
     public float speed = 9;
 
+    public float timeToMeleeAttack = 1f;
+    public float distanceToMeleeAttack = 3.4f;
+    public float meleeDamage = 1;
+
     #endregion
     #region Variables de control
     private float vSpeed = 0;
     private float hSpeed = 0;
     public int currentNumberWeapon = 0;
+    public bool isMeleeAtacking = false;
+    private float coldDownTimeMeleeAttack = 10f;
+    private bool enableMeleeAttack = true;
 
     #endregion
 
@@ -78,24 +85,36 @@ public class ScrPlayer : ScrLived
     {
         vSpeed = Input.GetAxis("Vertical");
         hSpeed = Input.GetAxis("Horizontal");
-        if (Input.GetButtonDown("Fire1"))
-        {
-            // Lógica de disparo
-            this.shotMainWeapon();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            this.rechargeMainWeapon();
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        #region Acciones sin ataques melee
+        if (!this.isMeleeAtacking)
         {
-            this.changeWeapon((int)ScrPlayer.nameWeapons.Simple);
-        }
+            if (Input.GetButtonDown("Fire1"))
+            {
+                // Lógica de disparo
+                this.shotMainWeapon();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                this.rechargeMainWeapon();
+            }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                this.changeWeapon((int)ScrPlayer.nameWeapons.Simple);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                this.changeWeapon((int)ScrPlayer.nameWeapons.Laser);
+            }
+        }
+        #endregion
+
+
+        if (Input.GetKeyDown(KeyCode.V) && this.enableMeleeAttack)
         {
-            this.changeWeapon((int)ScrPlayer.nameWeapons.Laser);
+            this.startMeleeAttack();
         }
 
 
@@ -109,7 +128,11 @@ public class ScrPlayer : ScrLived
         base.checkLife();
 
         this.movement();
-        this.chageAngle();
+        if(!this.isMeleeAtacking)
+        {
+            this.chageAngle();                
+        }
+        
     }
     #endregion
 
@@ -133,6 +156,70 @@ public class ScrPlayer : ScrLived
 
         this.rigidBody.MovePosition( this.rigidBody.position + (movement * this.speed * Time.fixedDeltaTime));
     }
+
+    private void startMeleeAttack()
+    {
+        if(!this.isMeleeAtacking)
+        {
+            this.isMeleeAtacking = true;
+            this.enableMeleeAttack = false;
+            StartCoroutine(this.meleeAttack());
+        }
+    }
+
+    private IEnumerator meleeAttack()
+    {
+        int iterations = 36;
+        float grades = 360 / iterations;
+        float time = 1 / iterations;
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, distanceToMeleeAttack);
+
+        // Iterar sobre los colliders y hacer algo con ellos
+        foreach (Collider2D collider in colliders)
+        {
+            if(collider.gameObject != this.gameObject)
+            {
+                ScrLived liveObject = collider.GetComponent<ScrLived>();
+                if(liveObject != null)
+                {
+                    liveObject.takeDamage(meleeDamage,TypeDamageConstant.none);
+
+                    Vector2 direction =  collider.transform.position - this.transform.position;
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    Debug.Log(direction);
+                    collider.GetComponent<Rigidbody2D>().drag = 0.05f;
+                    collider.GetComponent<Rigidbody2D>().mass = 3;
+
+                    collider.GetComponent<Rigidbody2D>().AddForce(direction * 20 , ForceMode2D.Impulse);
+
+                    liveObject.restoreLinearDrag();
+                }
+            }
+        }
+
+        for(int i = 0; i < iterations; i++)
+        {
+
+            Quaternion currentRotation = transform.rotation;
+            Quaternion newRotation = Quaternion.Euler(currentRotation.eulerAngles + new Vector3(0f, 0f, 360/iterations));
+            transform.rotation = newRotation;
+            yield return new WaitForSecondsRealtime(0.005f);
+        }
+
+        this.isMeleeAtacking = false;
+
+        StartCoroutine(this.startColdownMeleeAttack());
+    }
+
+    private IEnumerator startColdownMeleeAttack()
+    {
+        yield return new WaitForSeconds(this.coldDownTimeMeleeAttack);
+
+        this.enableMeleeAttack = true;
+    }
+
+
 
     #endregion
 
@@ -230,5 +317,12 @@ public class ScrPlayer : ScrLived
         weapon.transform.SetSiblingIndex(playerIndex + 1);
     }
 
+    #endregion
+
+    #region Gizmos
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, distanceToMeleeAttack);
+    }
     #endregion
 }

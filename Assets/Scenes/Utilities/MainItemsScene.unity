@@ -456,9 +456,14 @@ MonoBehaviour:
   maxHealth: 0
   showHealthBarInMaxHealth: 1
   healthBarOffset: {x: 0, y: 0, z: 0}
+  typeDamageVulnerability: 0
   healthBar: {fileID: 194682179}
   speed: 9
+  timeToMeleeAttack: 1
+  distanceToMeleeAttack: 3.4
+  meleeDamage: 1
   currentNumberWeapon: 0
+  isMeleeAtacking: 0
   body: {fileID: 1390861981}
   rigidBody: {fileID: 0}
   mainGun: {fileID: 446944491}
@@ -642,8 +647,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1000000
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 1000000
+  m_AngularDrag: 1000000
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -692,6 +697,7 @@ MonoBehaviour:
   maxHealth: 0
   showHealthBarInMaxHealth: 0
   healthBarOffset: {x: 0, y: 0, z: 0}
+  typeDamageVulnerability: 0
   healthBar: {fileID: 2124347258}
 --- !u!1001 &1092332301
 PrefabInstance:
