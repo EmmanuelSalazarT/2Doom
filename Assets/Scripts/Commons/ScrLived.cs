@@ -95,6 +95,39 @@ public abstract class ScrLived : MonoBehaviour
         {
             this.lifeGotZero();
         }
+
+        StartCoroutine(this.blinkEffect());
+    }
+
+    private IEnumerator blinkEffect()
+    {
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        //for(int i =1;i<=3;i+=1)
+        //{
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                float alpha = 0.1f;//i%2==0?1f:0.1f;
+                // Obtener el color actual del SpriteRenderer
+                Color color = spriteRenderer.color;
+
+                // Establecer el nuevo alfa en el color
+                color.a = alpha;
+
+                // Establecer el nuevo color en el SpriteRenderer
+                spriteRenderer.color = color;
+            }
+            yield return new WaitForSeconds(0.3f);
+        //}
+        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+        {
+            // Obtener el color actual del SpriteRenderer
+            Color color = spriteRenderer.color;
+
+            // Establecer el nuevo alfa en el color
+            color.a = 1;
+
+            spriteRenderer.color = color;
+        }
     }
 
     public void restoreLinearDrag()
